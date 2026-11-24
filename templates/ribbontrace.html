@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RibbonTrace · 缎带路径台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='ribbontrace.css') }}">
+  <script defer src="{{ url_for('static', filename='ribbontrace.js') }}"></script>
+</head>
+<body>
+<header class="masthead">
+  <a class="brand" href="/"><i aria-hidden="true"></i> RibbonTrace</a>
+  <span class="mast-label">缎带路径台</span>
+  <a class="external" href="/prepare">照片准备 ↗</a>
+</header>
+<main>
+  <section class="introduction">
+    <div><h1>缎带布置路径测量</h1><p>沿原片标出礼品缎带的路径，核对长度、段号和实际取样位置。</p></div>
+    <div class="top-actions">
+      <button id="practice" class="primary" type="button">打开练习缎带</button>
+      <button id="open-import" type="button">导入原片</button>
+    </div>
+  </section>
+  <p id="notice" class="notice" role="status" hidden></p>
+  <section class="library">
+    <label for="library">缎带卡</label>
+    <select id="library"><option value="">选取已存卡片</option></select>
+    <span id="origin"></span>
+  </section>
+  <section id="empty" class="empty">
+    <div class="empty-ribbon" aria-hidden="true"><i></i></div>
+    <h2>选择一张缎带布置原照</h2>
+    <p>使用正拍布置照片，沿带的中心用原片坐标依次标点。</p>
+  </section>
+  <section id="workspace" class="workspace" hidden>
+    <div class="left">
+      <section class="panel source">
+        <div class="panel-head">
+          <div><h2 id="card-title">原片</h2><span id="dimensions"></span></div>
+          <div class="modes" role="group" aria-label="原片缎带模式">
+            <button id="probe-mode" data-mode="probe" aria-pressed="true" type="button">点读</button>
+            <button id="mark-mode" data-mode="mark" aria-pressed="false" type="button">加路径点</button>
+          </div>
+        </div>
+        <div class="camera"><canvas id="capture" aria-label="缎带原照，可点击取样或输入原片像素坐标"></canvas></div>
+        <div class="probe">
+          <b>原片点读</b>
+          <form id="probe-form"><label>X <input id="probe-x" type="number" min="0" step="1" required></label>
+            <label>Y <input id="probe-y" type="number" min="0" step="1" required></label>
+            <button type="submit">读取</button></form>
+          <span id="probe-result">选择原片像素</span>
+        </div>
+      </section>
+      <section class="panel profile">
+        <div class="panel-head">
+          <div><h2>沿路径的实际亮度</h2><span>距起点 · px</span></div>
+          <span class="legend"><i></i> 原片取样</span>
+        </div>
+        <canvas id="chart" width="850" height="166" aria-label="沿实物路径取样的原片亮度"></canvas>
+      </section>
+    </div>
+    <aside class="right">
+      <section class="panel readout">
+        <div class="panel-head"><h2>已存路径长度</h2><span id="measurement-state"></span></div>
+        <div class="volume"><strong id="length-value">—</strong><span id="length-unit"></span></div>
+        <p id="selected-level"></p>
+      </section>
+      <form id="calibration" class="panel settings">
+        <div class="panel-head"><div><h2>路径点和标尺</h2><span>按路径顺序列原片 X,Y</span></div></div>
+        <label class="wide">卡片名称<input id="name" maxlength="80" required></label>
+        <label class="wide">原片路径点<textarea id="path-points" rows="4" spellcheck="false" required></textarea></label>
+        <p class="path-help">每行一个 X,Y，也可以在原片上依次选点。</p>
+        <fieldset><legend>测量</legend><div class="form-grid">
+          <label>标尺 mm/px<input data-setting="mm_per_px" type="number" step="any" min="0.001" required></label>
+          <label>采样步长 px<input data-setting="step" type="number" step="1" min="1" max="64" required></label>
+        </div></fieldset>
+        <button id="save" class="primary" type="submit">保存并测量</button>
+      </form>
+      <section class="panel outputs">
+        <div class="panel-head"><h2>缎带交接</h2></div>
+        <div><a id="proof" download>PNG 校样 ↓</a><a id="csv" download>CSV 读数 ↓</a><a id="zip" download>ZIP 缎带卡 ↓</a></div>
+        <button id="prepare" type="button">将原片送入照片准备 ↗</button>
+      </section>
+    </aside>
+  </section>
+</main>
+<dialog id="import">
+  <form id="upload">
+    <h2>导入缎带原照</h2>
+    <label>缎带卡名称<input name="name" maxlength="80" required></label>
+    <label>照片<input name="photo" type="file" accept="image/png,image/jpeg,image/webp,image/bmp,image/tiff" required></label>
+    <p id="import-notice" role="status"></p>
+    <div class="top-actions"><button id="cancel-import" type="button">取消</button><button class="primary" type="submit">建立缎带卡</button></div>
+  </form>
+</dialog>
+</body>
+</html>

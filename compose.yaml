@@ -1,0 +1,16 @@
+name: solo117-ribbontrace
+services:
+  desk:
+    build:
+      context: .
+      args:
+        RIBBONTRACE_DEPS_IMAGE: ${RIBBONTRACE_DEPS_IMAGE:-python:3.11-slim}
+    image: ${RIBBONTRACE_IMAGE:-solo117-ribbontrace:1.0}
+    network_mode: bridge
+    ports:
+      - "127.0.0.1:${RIBBONTRACE_PORT:-19917}:8000"
+    volumes:
+      - measurements:/var/lib/ribbontrace
+    init: true
+volumes:
+  measurements:

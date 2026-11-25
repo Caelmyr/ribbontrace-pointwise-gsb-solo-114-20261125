@@ -49,6 +49,12 @@
             <label>Y <input id="probe-y" type="number" min="0" step="1" required></label>
             <button type="submit">读取</button></form>
           <span id="probe-result">选择原片像素</span>
+          <div class="base-pick-row">
+            <button id="use-base" type="button">取为底色</button>
+            <span class="base-pick-hint">把当前点读的照片实值 RGB 存为无花纹底色</span>
+            <span id="base-current" class="base-current" hidden><i id="base-swatch" aria-hidden="true"></i><span id="base-rgb-text"></span></span>
+          </div>
+          <div id="probe-passes" class="probe-passes" aria-live="polite"></div>
         </div>
       </section>
       <section class="panel profile">
@@ -64,6 +70,12 @@
         <div class="panel-head"><h2>已存路径长度</h2><span id="measurement-state"></span></div>
         <div class="volume"><strong id="length-value">—</strong><span id="length-unit"></span></div>
         <p id="selected-level"></p>
+        <p id="cut-length" class="cut-length" hidden>
+          <span class="cut-tag">采用切位</span>
+          切位长度：从路径起点到采用切位的实际毫米数为 <strong id="cut-length-value" data-mm="">—</strong> mm
+          <span id="cut-length-meta" class="cut-length-meta"></span>
+        </p>
+        <p id="cut-length-empty" class="cut-length-empty">尚未采用切位；原整条路径保留，去留可在点读取样点时核对。</p>
       </section>
       <form id="calibration" class="panel settings">
         <div class="panel-head"><div><h2>路径点和标尺</h2><span>按路径顺序列原片 X,Y</span></div></div>
@@ -75,6 +87,36 @@
           <label>采样步长 px<input data-setting="step" type="number" step="1" min="1" max="64" required></label>
         </div></fieldset>
         <button id="save" class="primary" type="submit">保存并测量</button>
+      </form>
+      <form id="cut-form" class="panel cut-planner" data-testid="cut-panel">
+        <div class="panel-head">
+          <div><h2>起点剪段 · 避开花纹切位</h2>
+            <span>只在现有路径的实际采样点中找；切位和前后各两个取样点的每通道 RGB 都须贴近底色 18 以内。</span></div>
+        </div>
+        <div class="cut-body">
+          <div class="cut-grid">
+            <label>想要的毫米数（mm）
+              <input id="cut-target-mm" name="cut_target_mm" data-cut="cut_target_mm" type="number" step="any" min="0.001" placeholder="如 60" inputmode="decimal">
+            </label>
+            <label>允许差（± mm）
+              <input id="cut-tolerance-mm" name="cut_tolerance_mm" data-cut="cut_tolerance_mm" type="number" step="any" min="0" placeholder="如 2" inputmode="decimal">
+            </label>
+          </div>
+          <div class="base-row">
+            <span class="base-label">无花纹底色
+              <input type="color" id="base-color" data-testid="base-color" value="#d4d4d4" aria-label="无花纹底色颜色选择">
+            </span>
+            <span id="cut-base-summary" class="base-summary">先用左侧「原片点读」读一个看得见的无花纹底色，再点「取为底色」把该 RGB 带过来；也可直接用色块选择。</span>
+          </div>
+          <div class="cut-actions">
+            <button id="find-cuts" class="primary" type="submit">查找切位</button>
+            <button id="adopt-cut" type="button" hidden>采用切位</button>
+            <button id="clear-cut" type="button" hidden>取消切位标记，保留整条路径</button>
+          </div>
+          <p id="cut-message" class="cut-message" role="status" hidden></p>
+          <div id="cut-adopted" class="cut-adopted" hidden></div>
+          <div id="cut-options" class="cut-options" aria-live="polite"></div>
+        </div>
       </form>
       <section class="panel outputs">
         <div class="panel-head"><h2>缎带交接</h2></div>

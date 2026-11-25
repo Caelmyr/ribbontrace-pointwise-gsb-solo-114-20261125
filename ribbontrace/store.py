@@ -66,7 +66,7 @@ class Cards:
     def update(self, key, value):
         with self.lock:
             card = self.read(key, integer(value.get("revision"), "工作版本", 1))
-            incoming = object_value(value.get("settings", {}), "缎带设置")
+            incoming = route.normalize_cut_keys(object_value(value.get("settings", {}), "缎带设置"))
             config = route.settings({**card["settings"], **incoming}, (card["width"], card["height"]))
             card.update(name=text(value.get("name", card["name"]), "缎带卡名称", 80, False),
                         settings=config, revision=card["revision"] + 1)

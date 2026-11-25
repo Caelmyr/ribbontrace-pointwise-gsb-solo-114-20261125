@@ -40,6 +40,7 @@
           <div class="modes" role="group" aria-label="原片缎带模式">
             <button id="probe-mode" data-mode="probe" aria-pressed="true" type="button">点读</button>
             <button id="mark-mode" data-mode="mark" aria-pressed="false" type="button">加路径点</button>
+            <button id="segment-mode" data-mode="segment" aria-pressed="false" type="button">选段</button>
           </div>
         </div>
         <div class="camera"><canvas id="capture" aria-label="缎带原照，可点击取样或输入原片像素坐标"></canvas></div>
@@ -63,6 +64,7 @@
       <section class="panel readout">
         <div class="panel-head"><h2>已存路径长度</h2><span id="measurement-state"></span></div>
         <div class="volume"><strong id="length-value">—</strong><span id="length-unit"></span></div>
+        <p id="length-breakdown" class="length-breakdown"></p>
         <p id="selected-level"></p>
       </section>
       <form id="calibration" class="panel settings">
@@ -70,6 +72,19 @@
         <label class="wide">卡片名称<input id="name" maxlength="80" required></label>
         <label class="wide">原片路径点<textarea id="path-points" rows="4" spellcheck="false" required></textarea></label>
         <p class="path-help">每行一个 X,Y，也可以在原片上依次选点。</p>
+        <div class="retrace-box">
+          <div class="retrace-head">
+            <label for="segment-select">相邻点对</label>
+            <select id="segment-select" name="segment" aria-label="选择要重走的相邻路径点"></select>
+          </div>
+          <p class="retrace-rule">只沿两点连线两侧各 28 px 向前找同一条蓝缎带；最多补一处 ≤24 px 的两边同带遮挡。</p>
+          <div class="retrace-actions">
+            <button id="retrace-apply" class="primary" type="button">重走这一段</button>
+            <button id="retrace-reset" type="button">切回手填直线</button>
+          </div>
+          <p id="segment-length" class="segment-length"></p>
+          <p id="retrace-notice" class="retrace-notice" role="status"></p>
+        </div>
         <fieldset><legend>测量</legend><div class="form-grid">
           <label>标尺 mm/px<input data-setting="mm_per_px" type="number" step="any" min="0.001" required></label>
           <label>采样步长 px<input data-setting="step" type="number" step="1" min="1" max="64" required></label>

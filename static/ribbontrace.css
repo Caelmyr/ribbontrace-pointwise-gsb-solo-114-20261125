@@ -73,6 +73,16 @@ h2 { font-size: 15px; font-weight: 700; }
 .legend i { display:inline-block; width:15px; margin-right:4px; border-top:2px solid #367675; vertical-align:middle; }
 .settings textarea { width:100%; resize:vertical; min-height:75px; box-sizing:border-box; border-radius:5px; padding:7px; background:#f8f9ef; color:#293433; border:1px solid #c6ccbd; font:13px monospace; }
 .path-help { margin:0 15px 8px; color:#5f685d; font-size:12px; }
+.retrace-box { margin: 0 15px 12px; padding: 10px; border: 1px solid #c9d4c4; border-radius: 6px; background: #eef3e7; }
+.retrace-head { display:flex; align-items:center; gap:8px; justify-content:space-between; }
+.retrace-head label { font-size:12px; font-weight:700; color:#405347; }
+.retrace-head select { min-width: 0; flex: 1; height: 30px; min-height: 30px; padding: 3px 6px; }
+.retrace-rule { margin: 7px 0 9px; color:#66715f; font-size:11.5px; line-height:1.45; }
+.retrace-actions { display:flex; gap:8px; }
+.retrace-actions button { flex:1; min-height:32px; padding:5px 8px; font-size:12px; }
+.segment-length { margin:8px 0 0; color:#315f57; font-size:12px; font-weight:700; line-height:1.4; }
+.retrace-notice { margin:6px 0 0; color:#8a326c; font-size:12px; line-height:1.4; min-height: 0; }
+.length-breakdown { color:#315f57 !important; font-weight:700; }
 .empty h2 { font-size: 17px; }
 .notice { margin: 0 0 12px; color: var(--accent); }
 dialog { min-width: min(420px, 90vw); background: var(--paper); color: inherit; padding: 20px; border: 1px solid var(--line); border-radius: 6px; }
